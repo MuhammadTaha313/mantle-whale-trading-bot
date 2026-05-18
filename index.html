@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MantleWhale - AI Trading Bot</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00ff88;
+    --dark: #050a0e;
+    --card: #0a1520;
+    --border: #0d2137;
+    --text: #a8c4d4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+  }
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    z-index: 1;
+  }
+  .badge {
+    display: inline-block;
+    border: 1px solid var(--green);
+    color: var(--green);
+    font-size: 0.7rem;
+    padding: 0.3rem 1rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 2rem;
+    animation: fadeIn 1s ease;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 1rem;
+    animation: slideUp 1s ease;
+  }
+  .hero h1 span { color: var(--green); }
+  .hero p {
+    font-size: 0.9rem;
+    max-width: 500px;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    animation: slideUp 1.2s ease;
+  }
+  .btn-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: slideUp 1.4s ease;
+  }
+  .btn {
+    padding: 0.8rem 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+  }
+  .btn-primary {
+    background: var(--green);
+    color: var(--dark);
+    font-weight: 700;
+  }
+  .btn-primary:hover { background: #fff; }
+  .btn-outline {
+    background: transparent;
+    color: var(--green);
+    border: 1px solid var(--green);
+  }
+  .btn-outline:hover { background: var(--green); color: var(--dark); }
+
+  /* STATS */
+  .stats {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat {
+    background: var(--dark);
+    padding: 2rem;
+    text-align: center;
+  }
+  .stat-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--green);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--text);
+    margin-top: 0.3rem;
+  }
+
+  /* LIVE TERMINAL */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--green);
+    margin-bottom: 1rem;
+  }
+  .section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 3rem;
+  }
+  .terminal {
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .terminal-bar {
+    background: var(--card);
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #febc2e; }
+  .dot-g { background: #28c840; }
+  .terminal-title {
+    font-size: 0.75rem;
+    color: var(--text);
+    margin-left: 0.5rem;
+  }
+  .terminal-body {
+    padding: 1.5rem;
+    font-size: 0.8rem;
+    line-height: 2;
+    min-height: 280px;
+  }
+  .t-dim { color: #3a5a6a; }
+  .t-green { color: var(--green); }
+  .t-yellow { color: #ffd700; }
+  .t-red { color: #ff4444; }
+  .t-white { color: #fff; }
+  .t-blue { color: #4fc3f7; }
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: var(--green);
+    animation: blink 1s infinite;
+    vertical-align: middle;
+  }
+
+  /* FEATURES */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .feature {
+    background: var(--dark);
+    padding: 2rem;
+    transition: background 0.3s;
+  }
+  .feature:hover { background: var(--card); }
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  .feature h3 {
+    font-family: 'Syne', sans-serif;
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+  }
+  .feature p { font-size: 0.8rem; line-height: 1.8; }
+
+  /* TOKENS */
+  .tokens {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .token {
+    border: 1px solid var(--border);
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    color: var(--green);
+    background: var(--card);
+  }
+
+  /* HOW IT WORKS */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+  .step {
+    position: relative;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border);
+  }
+  .step.active { border-color: var(--green); }
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .step.active .step-num { color: var(--green); opacity: 0.3; }
+  .step h3 { color: #fff; font-size: 0.95rem; margin-bottom: 0.5rem; }
+  .step p { font-size: 0.78rem; line-height: 1.8; }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  footer .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  footer .logo span { color: var(--green); }
+  footer p { font-size: 0.75rem; color: var(--text); margin-bottom: 1.5rem; }
+  .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+  .footer-links a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.75rem;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--green); }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* SIGNAL TICKER */
+  .ticker {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  .ticker-inner {
+    display: flex;
+    gap: 3rem;
+    animation: scroll 20s linear infinite;
+    white-space: nowrap;
+  }
+  .tick-item { font-size: 0.75rem; display: flex; gap: 0.5rem; }
+  .tick-up { color: var(--green); }
+  .tick-dn { color: #ff4444; }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="tick-item"><span>MNT/USDT</span><span class="tick-up">▲ +3.2%</span></span>
+    <span class="tick-item"><span>WETH/USDT</span><span class="tick-up">▲ +1.1%</span></span>
+    <span class="tick-item"><span>mETH/USDT</span><span class="tick-dn">▼ -0.8%</span></span>
+    <span class="tick-item"><span>USDC/USDT</span><span class="tick-up">▲ +0.1%</span></span>
+    <span class="tick-item"><span>Signal: BUY MNT</span><span class="tick-up">● ACTIVE</span></span>
+    <span class="tick-item"><span>Mantle Chain</span><span class="tick-up">● CONNECTED</span></span>
+    <span class="tick-item"><span>MNT/USDT</span><span class="tick-up">▲ +3.2%</span></span>
+    <span class="tick-item"><span>WETH/USDT</span><span class="tick-up">▲ +1.1%</span></span>
+    <span class="tick-item"><span>mETH/USDT</span><span class="tick-dn">▼ -0.8%</span></span>
+    <span class="tick-item"><span>USDC/USDT</span><span class="tick-up">▲ +0.1%</span></span>
+    <span class="tick-item"><span>Signal: BUY MNT</span><span class="tick-up">● ACTIVE</span></span>
+    <span class="tick-item"><span>Mantle Chain</span><span class="tick-up">● CONNECTED</span></span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">TURING TEST HACKATHON 2026 — AI TRADING TRACK</div>
+  <h1>Mantle<span>Whale</span><br>AI Bot</h1>
+  <p>Autonomous AI trading agent that detects whale movements and volume spikes on Mantle Network — executing BUY/SELL signals 24/7.</p>
+  <div class="btn-group">
+    <a href="https://github.com/MuhammadTaha313/mantle-whale-trading-bot" class="btn btn-primary" target="_blank">View on GitHub</a>
+    <a href="https://youtu.be/Qr4Tn8bolig" class="btn btn-outline" target="_blank">Watch Demo</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><span class="stat-value">5</span><span class="stat-label">TOKENS MONITORED</span></div>
+  <div class="stat"><span class="stat-value">30s</span><span class="stat-label">SCAN INTERVAL</span></div>
+  <div class="stat"><span class="stat-value">-8%</span><span class="stat-label">STOP LOSS</span></div>
+  <div class="stat"><span class="stat-value">+15%</span><span class="stat-label">TAKE PROFIT</span></div>
+</div>
+
+<!-- TERMINAL -->
+<div class="section">
+  <div class="section-label">// LIVE OUTPUT</div>
+  <h2>Bot in Action</h2>
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="dot dot-r"></div>
+      <div class="dot dot-y"></div>
+      <div class="dot dot-g"></div>
+      <span class="terminal-title">mantle_trading_bot.py</span>
+    </div>
+    <div class="terminal-body">
+      <div><span class="t-green">🤖 Mantle AI Trading Bot</span> <span class="t-dim">— Turing Test Hackathon 2026</span></div>
+      <div><span class="t-dim">═══════════════════════════════════════</span></div>
+      <div><span class="t-blue">✅ Connected to Mantle Network</span> <span class="t-dim">| Chain ID: 5000</span></div>
+      <div><span class="t-dim">🔄 Cycle #1 | 21:15:30</span></div>
+      <div><span class="t-dim">🔍 Scanning 5 tokens on Mantle...</span></div>
+      <div><span class="t-dim">═══════════════════════════════════════</span></div>
+      <div><span class="t-green">🟢 MNT</span>    <span class="t-dim">| $0.8234  | Liq: $245,000 | 5m:</span> <span class="t-green">+3.2%</span> <span class="t-dim">|</span> <span class="t-green">BUY → Volume spike</span></div>
+      <div><span class="t-white">⚪ WETH</span>   <span class="t-dim">| $2451.00 | Liq: $890,000 | 5m:</span> <span class="t-dim">+0.1%</span> <span class="t-dim">| HOLD</span></div>
+      <div><span class="t-yellow">🟡 USDT</span>   <span class="t-dim">| $1.0001  | Liq: $120,000 | 5m:</span> <span class="t-dim">+0.0%</span> <span class="t-dim">| WATCH</span></div>
+      <div><span class="t-white">⚪ USDC</span>   <span class="t-dim">| $0.9999  | Liq: $95,000  | 5m:</span> <span class="t-dim">-0.1%</span> <span class="t-dim">| HOLD</span></div>
+      <div><span class="t-red">🔴 mETH</span>   <span class="t-dim">| $2448.00 | Liq: $340,000 | 5m:</span> <span class="t-red">-6.2%</span> <span class="t-dim">|</span> <span class="t-red">SELL → Dump signal</span></div>
+      <div><span class="t-dim">═══════════════════════════════════════</span></div>
+      <div><span class="t-green">⚡ 2 signal(s) mila!</span></div>
+      <div><span class="t-green">🎯 BUY SIGNAL: MNT | Price: $0.8234</span></div>
+      <div><span class="t-dim">⏳ 30 seconds baad agla scan...</span> <span class="cursor"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="section" style="padding-top: 0;">
+  <div class="section-label">// FEATURES</div>
+  <h2>What MantleWhale Does</h2>
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">🐋</div>
+      <h3>Whale Detection</h3>
+      <p>Monitors large volume movements and whale wallet activity in real-time on Mantle Network.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🤖</div>
+      <h3>AI Signal Engine</h3>
+      <p>Scores each token using volume spikes + price momentum. Outputs BUY / SELL / HOLD signals.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🛡️</div>
+      <h3>Risk Management</h3>
+      <p>Automatic Stop Loss at -8% and Take Profit at +15%. Protects capital automatically.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">⚡</div>
+      <h3>24/7 Autonomous</h3>
+      <p>Runs continuously every 30 seconds. No human intervention needed once deployed.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🔗</div>
+      <h3>Mantle Native</h3>
+      <p>Built specifically for Mantle Network (Chain ID: 5000) with Merchant Moe DEX integration.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📊</div>
+      <h3>On-Chain Logs</h3>
+      <p>Every decision logged permanently. Full transparency for judges and the community.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TOKENS -->
+<div class="section" style="padding-top: 0;">
+  <div class="section-label">// SUPPORTED TOKENS</div>
+  <h2>Monitored Assets</h2>
+  <div class="tokens">
+    <span class="token">MNT</span>
+    <span class="token">WETH</span>
+    <span class="token">USDT</span>
+    <span class="token">USDC</span>
+    <span class="token">mETH</span>
+  </div>
+
+  <div class="section-label">// HOW IT WORKS</div>
+  <h2>Simple 4-Step Process</h2>
+  <div class="steps">
+    <div class="step active">
+      <div class="step-num">01</div>
+      <h3>Scan</h3>
+      <p>Bot scans DexScreener every 30 seconds for all Mantle tokens.</p>
+    </div>
+    <div class="step active">
+      <div class="step-num">02</div>
+      <h3>Analyze</h3>
+      <p>AI engine scores volume spikes and price momentum.</p>
+    </div>
+    <div class="step active">
+      <div class="step-num">03</div>
+      <h3>Signal</h3>
+      <p>BUY / SELL / HOLD signal generated based on score.</p>
+    </div>
+    <div class="step active">
+      <div class="step-num">04</div>
+      <h3>Monitor</h3>
+      <p>Position tracked with auto Stop Loss and Take Profit.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">Mantle<span>Whale</span></div>
+  <p>AI Trading Bot — Turing Test Hackathon 2026 — Track: AI Trading & Strategy</p>
+  <div class="footer-links">
+    <a href="https://github.com/MuhammadTaha313/mantle-whale-trading-bot" target="_blank">GitHub</a>
+    <a href="https://youtu.be/Qr4Tn8bolig" target="_blank">Demo Video</a>
+    <a href="https://dorahacks.io/buidl/28966" target="_blank">DoraHacks</a>
+    <a href="https://mantle.xyz" target="_blank">Mantle Network</a>
+  </div>
+</footer>
+
+</body>
+  </html>
