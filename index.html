@@ -17,20 +17,23 @@
 <style>
   :root {
     --green: #0fcb81;          /* Official Premium Mantle Mint Green */
-    --dark: #0f172a;           /* Headings aur dark text ke liye slate navy */
-    --light-bg: #f8fafc;       /* Clean Premium Ice-White Background jaisa unki web par hai */
-    --card: #ffffff;           /* Cards ko solid clean white kiya hai */
-    --border: #e2e8f0;         /* Modern razor-thin subtle borders */
-    --text: #475569;           /* Reading text ke liye clean gray */
+    --dark: #0f172a;           /* Headings aur text ke liye slate navy */
+    --light-bg: #f8fafc;       /* Clean Premium Ice-White Background */
+    --card: #ffffff;           /* Content blocks solid clean white */
+    --border: #e2e8f0;         /* Modern razor-thin soft lines */
+    --text: #475569;           /* Secondary slate text */
   }
+  
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  
   body {
     background: var(--light-bg);
     color: var(--text);
     font-family: 'Space Mono', monospace;
     overflow-x: hidden;
   }
-  /* Grid background - Isko bohot soft mint grid kiya hai unki web jaisa */
+  
+  /* Soft tech grid pattern inspired by Mantle design */
   body::before {
     content: '';
     position: fixed;
@@ -43,7 +46,27 @@
     z-index: 0;
   }
 
-  /* HERO */
+  /* TICKER CONTAINER */
+  .ticker {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  .ticker-inner {
+    display: flex;
+    gap: 3rem;
+    animation: scroll 20s linear infinite;
+    white-space: nowrap;
+  }
+  .tick-item { font-size: 0.75rem; font-weight: 700; color: var(--dark); display: flex; gap: 0.5rem; }
+  .tick-up { color: var(--green); }
+  .tick-dn { color: #ff4444; }
+
+  /* MAIN HERO ELEMENT */
   .hero {
     position: relative;
     min-height: 100vh;
@@ -116,7 +139,7 @@
   }
   .btn-outline:hover { background: var(--light-bg); border-color: var(--dark); }
 
-  /* STATS */
+  /* CORE STATS GRID */
   .stats {
     position: relative;
     z-index: 1;
@@ -146,7 +169,7 @@
     margin-top: 0.3rem;
   }
 
-  /* LIVE TERMINAL */
+  /* SYSTEM LOG TERMINAL */
   .section {
     position: relative;
     z-index: 1;
@@ -168,7 +191,7 @@
     margin-bottom: 3rem;
   }
   .terminal {
-    background: #090d16; /* Terminal ko premium black rakha hai taaki logs properly read hon */
+    background: #090d16;
     border: 1px solid #1e293b;
     border-radius: 8px;
     overflow: hidden;
@@ -212,7 +235,7 @@
     vertical-align: middle;
   }
 
-  /* FEATURES */
+  /* FEATURES CARDS STRUCTURE */
   .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -240,7 +263,7 @@
   }
   .feature p { font-size: 0.8rem; line-height: 1.8; color: var(--text); }
 
-  /* TOKENS */
+  /* TOKEN LABELS */
   .tokens {
     display: flex;
     gap: 0.5rem;
@@ -257,7 +280,7 @@
     border-radius: 4px;
   }
 
-  /* HOW IT WORKS */
+  /* STRATEGY WORKFLOW PIPELINE */
   .steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -281,7 +304,7 @@
   .step h3 { color: var(--dark); font-size: 0.95rem; margin-bottom: 0.5rem; }
   .step p { font-size: 0.78rem; line-height: 1.8; color: var(--text); }
 
-  /* FOOTER */
+  /* CONTEXTUAL FOOTER MODULE */
   footer {
     position: relative;
     z-index: 1;
@@ -309,33 +332,13 @@
   }
   .footer-links a:hover { color: var(--green); }
 
-  /* ANIMATIONS */
+  /* CORE STRUCTURAL KEYFRAMES */
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes slideUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
   }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-  /* SIGNAL TICKER */
-  .ticker {
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 0.8rem 0;
-    overflow: hidden;
-    position: relative;
-    z-index: 1;
-  }
-  .ticker-inner {
-    display: flex;
-    gap: 3rem;
-    animation: scroll 20s linear infinite;
-    white-space: nowrap;
-  }
-  .tick-item { font-size: 0.75rem; font-weight: 700; color: var(--dark); display: flex; gap: 0.5rem; }
-  .tick-up { color: var(--green); }
-  .tick-dn { color: #ff4444; }
   @keyframes scroll {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
@@ -537,4 +540,5 @@
 </script>
 
 </body>
-</html>
+                                                                                                                                                                           </html>
+      
