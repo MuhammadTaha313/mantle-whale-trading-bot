@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MantleWhale - AI Trading Bot</title>
+<title>MantleWhale - Premium AI Trading Bot</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DEMO123456"></script>
@@ -16,12 +16,13 @@
 
 <style>
   :root {
-    --green: #0fcb81;          /* Official Premium Mantle Mint Green */
-    --dark: #0f172a;           /* Headings aur text ke liye slate navy */
-    --light-bg: #f8fafc;       /* Clean Premium Ice-White Background */
-    --card: #ffffff;           /* Content blocks solid clean white */
-    --border: #e2e8f0;         /* Modern razor-thin soft lines */
-    --text: #475569;           /* Secondary slate text */
+    --green: #0fcb81;          /* Premium Mantle Corporate Green */
+    --green-bg: #e6f9f1;       /* Premium Light Soft Accent */
+    --dark: #0f172a;           /* Deep navy typography */
+    --light-bg: #f8fafc;       /* Clean premium white canvas */
+    --card: #ffffff;           /* Crisp solid white containers */
+    --border: #e2e8f0;         /* Modern razor-thin soft borders */
+    --text: #475569;           /* Slack gray text */
   }
   
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,51 +32,91 @@
     color: var(--text);
     font-family: 'Space Mono', monospace;
     overflow-x: hidden;
+    line-height: 1.6;
   }
   
-  /* Soft tech grid pattern inspired by Mantle design */
+  /* Mantle Style Technical Background Micro Grid */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background-image: 
-      linear-gradient(rgba(15,203,129,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(15,203,129,0.02) 1px, transparent 1px);
-    background-size: 40px 40px;
+      linear-gradient(rgba(15, 203, 129, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(15, 203, 129, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
     pointer-events: none;
     z-index: 0;
   }
 
-  /* TICKER CONTAINER */
+  /* TOP PRICE TICKER */
   .ticker {
     background: var(--card);
-    border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     padding: 0.8rem 0;
     overflow: hidden;
     position: relative;
-    z-index: 1;
+    z-index: 10;
   }
   .ticker-inner {
     display: flex;
     gap: 3rem;
-    animation: scroll 20s linear infinite;
+    animation: scrollPrice 25s linear infinite;
     white-space: nowrap;
   }
   .tick-item { font-size: 0.75rem; font-weight: 700; color: var(--dark); display: flex; gap: 0.5rem; }
   .tick-up { color: var(--green); }
-  .tick-dn { color: #ff4444; }
+  .tick-dn { color: #ef4444; }
 
-  /* MAIN HERO ELEMENT */
+  /* SUBDUED MARQUEE PATTI 1 (FAST) */
+  .brand-marquee-fast {
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 9;
+  }
+  .brand-track-fast {
+    display: flex;
+    gap: 4rem;
+    animation: scrollBrandsFast 30s linear infinite;
+    white-space: nowrap;
+    align-items: center;
+  }
+  .brand-logo-img {
+    height: 28px;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .brand-logo-img:hover { opacity: 1; }
+
+  /* SUBDUED MARQUEE PATTI 2 (REVERSE) */
+  .brand-marquee-slow {
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 8;
+  }
+  .brand-track-slow {
+    display: flex;
+    gap: 5rem;
+    animation: scrollBrandsSlow 40s linear infinite;
+    white-space: nowrap;
+    align-items: center;
+    direction: rtl; /* Right to left flow */
+  }
+
+  /* HERO */
   .hero {
     position: relative;
-    min-height: 100vh;
+    padding: 6rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
-    padding: 2rem;
     z-index: 1;
   }
   .badge {
@@ -84,264 +125,120 @@
     color: var(--green);
     background: rgba(15,203,129,0.06);
     font-size: 0.7rem;
-    padding: 0.4rem 1.2rem;
-    letter-spacing: 0.15em;
+    font-weight: 700;
+    padding: 0.5rem 1.2rem;
+    border-radius: 100px;
+    letter-spacing: 0.05em;
     margin-bottom: 2rem;
-    border-radius: 4px;
-    animation: fadeIn 1s ease;
   }
   .hero h1 {
     font-family: 'Syne', sans-serif;
-    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
     font-weight: 800;
     color: var(--dark);
-    line-height: 1;
-    margin-bottom: 1rem;
-    animation: slideUp 1s ease;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
   }
   .hero h1 span { color: var(--green); }
   .hero p {
-    font-size: 0.9rem;
-    max-width: 500px;
-    line-height: 1.8;
+    font-size: 1rem;
+    max-width: 600px;
     color: var(--text);
-    margin-bottom: 2.5rem;
-    animation: slideUp 1.2s ease;
+    margin-bottom: 3.5rem;
   }
   .btn-group {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
-    animation: slideUp 1.4s ease;
   }
   .btn {
-    padding: 0.8rem 2rem;
+    padding: 1rem 2.5rem;
     font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
     text-decoration: none;
     cursor: pointer;
-    border: none;
-    border-radius: 6px;
-    transition: all 0.3s;
+    border-radius: 8px;
+    transition: all 0.25s ease-in-out;
   }
   .btn-primary {
     background: var(--green);
     color: #fff;
-    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(15, 203, 129, 0.3);
   }
-  .btn-primary:hover { background: var(--dark); }
+  .btn-primary:hover { 
+    background: var(--dark);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+  }
   .btn-outline {
     background: var(--card);
     color: var(--dark);
     border: 1px solid var(--border);
   }
-  .btn-outline:hover { background: var(--light-bg); border-color: var(--dark); }
+  .btn-outline:hover { 
+    background: var(--light-bg);
+    border-color: var(--dark);
+  }
 
-  /* CORE STATS GRID */
+  /* REPOSITIONED PATTI AREA (Marked Blank Space) */
+  .brand-marquee-fast-marked {
+    border-top: 1px solid var(--border);
+    margin-top: 2rem; /* Spacing below buttons */
+  }
+
+  /* PROTOCOL STATS banner */
   .stats {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     background: var(--border);
+    gap: 1px;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
   }
   .stat {
     background: var(--card);
-    padding: 2rem;
+    padding: 2.5rem 2rem;
     text-align: center;
   }
   .stat-value {
     font-family: 'Syne', sans-serif;
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 800;
     color: var(--dark);
     display: block;
+    line-height: 1;
   }
   .stat-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
     color: var(--text);
-    margin-top: 0.3rem;
-  }
-
-  /* SYSTEM LOG TERMINAL */
-  .section {
-    position: relative;
-    z-index: 1;
-    padding: 5rem 2rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .section-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    color: var(--green);
-    margin-bottom: 1rem;
-  }
-  .section h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    font-weight: 800;
-    color: var(--dark);
-    margin-bottom: 3rem;
-  }
-  .terminal {
-    background: #090d16;
-    border: 1px solid #1e293b;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .terminal-bar {
-    background: #111827;
-    padding: 0.8rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    border-bottom: 1px solid #1f2937;
-  }
-  .dot { width: 10px; height: 10px; border-radius: 50%; }
-  .dot-r { background: #ff5f57; }
-  .dot-y { background: #febc2e; }
-  .dot-g { background: #28c840; }
-  .terminal-title {
-    font-size: 0.75rem;
-    color: #9ca3af;
-    margin-left: 0.5rem;
-  }
-  .terminal-body {
-    padding: 1.5rem;
-    font-size: 0.8rem;
-    line-height: 2;
-    min-height: 280px;
-    color: #e5e7eb;
-  }
-  .t-dim { color: #4b5563; }
-  .t-green { color: var(--green); }
-  .t-yellow { color: #f59e0b; }
-  .t-red { color: #ef4444; }
-  .t-white { color: #fff; }
-  .t-blue { color: #3b82f6; }
-  .cursor {
-    display: inline-block;
-    width: 8px;
-    height: 14px;
-    background: var(--green);
-    animation: blink 1s infinite;
-    vertical-align: middle;
-  }
-
-  /* FEATURES CARDS STRUCTURE */
-  .features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .feature {
-    background: var(--card);
-    padding: 2rem;
-    transition: background 0.3s;
-  }
-  .feature:hover { background: #f8fafc; }
-  .feature-icon {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  .feature h3 {
-    font-family: 'Syne', sans-serif;
-    color: var(--dark);
-    font-size: 1.1rem;
-    margin-bottom: 0.8rem;
-  }
-  .feature p { font-size: 0.8rem; line-height: 1.8; color: var(--text); }
-
-  /* TOKEN LABELS */
-  .tokens {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 3rem;
-  }
-  .token {
-    border: 1px solid var(--border);
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
+    margin-top: 0.5rem;
     font-weight: 700;
-    color: var(--dark);
-    background: var(--card);
-    border-radius: 4px;
   }
 
-  /* STRATEGY WORKFLOW PIPELINE */
-  .steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-  }
-  .step {
-    position: relative;
-    padding-top: 1rem;
-    border-top: 2px solid var(--border);
-  }
-  .step.active { border-color: var(--green); }
-  .step-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 3rem;
-    font-weight: 800;
-    color: var(--border);
-    line-height: 1;
-    margin-bottom: 1rem;
-  }
-  .step.active .step-num { color: var(--green); opacity: 0.2; }
-  .step h3 { color: var(--dark); font-size: 0.95rem; margin-bottom: 0.5rem; }
-  .step p { font-size: 0.78rem; line-height: 1.8; color: var(--text); }
-
-  /* CONTEXTUAL FOOTER MODULE */
-  footer {
-    position: relative;
-    z-index: 1;
-    border-top: 1px solid var(--border);
-    background: var(--card);
-    padding: 3rem 2rem;
-    text-align: center;
-  }
-  footer .logo {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--dark);
-    margin-bottom: 1rem;
-  }
-  footer .logo span { color: var(--green); }
-  footer p { font-size: 0.75rem; color: var(--text); margin-bottom: 1.5rem; }
-  .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
-  .footer-links a {
-    color: var(--text);
-    text-decoration: none;
-    font-size: 0.75rem;
-    font-weight: 700;
-    transition: color 0.3s;
-  }
-  .footer-links a:hover { color: var(--green); }
-
-  /* CORE STRUCTURAL KEYFRAMES */
+  /* SCROLL ANIMATIONS */
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-  @keyframes scroll {
+  @keyframes scrollPrice {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
+  }
+  @keyframes scrollBrandsFast {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes scrollBrandsSlow {
+    from { transform: translateX(0); }
+    to { transform: translateX(50%); }
   }
 </style>
 </head>
@@ -364,18 +261,46 @@
   </div>
 </div>
 
-<div style="width:100%;z-index:1;position:relative;margin-bottom:-150px;">
-<img src="Banner.png" style="width:100%;display:block;">
+<div style="width:100%;z-index:1;position:relative;max-width:1400px;margin: 0 auto;padding: 1rem 1rem 0 1rem;">
+  <img src="Banner.png" style="width:100%;display:block;border-radius:16px;box-shadow: 0 10px 30px rgba(0,0,0,0.04);border: 1px solid var(--border);">
 </div>
 
 <section class="hero">
-  <img src="logo.png" width="150" style="margin-bottom:1.5rem;border-radius:50%; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+  <img src="logo.png" width="130" style="margin-bottom:2.5rem;border-radius:50%;box-shadow: 0 8px 24px rgba(15,203,129,0.1);border: 3px solid #fff;">
   <div class="badge">TURING TEST HACKATHON 2026 — AI TRADING TRACK</div>
   <h1>Mantle<span>Whale</span><br>AI Bot</h1>
   <p>Autonomous AI trading agent that detects whale movements and volume spikes on Mantle Network — executing BUY/SELL signals 24/7.</p>
   <div class="btn-group">
     <a href="https://github.com/MuhammadTaha313/mantle-whale-trading-bot" id="hero-github-btn" class="btn btn-primary" target="_blank">View on GitHub</a>
     <a href="https://youtu.be/Qr4Tn8bolig" id="hero-demo-btn" class="btn btn-outline" target="_blank">Watch Demo</a>
+  </div>
+
+  <div class="brand-marquee-fast brand-marquee-fast-marked">
+    <div class="brand-track-fast">
+      <img src="mantle brand (1).svg" alt="Mantle" class="brand-logo-img">
+      <img src="bybit (1).png" alt="Bybit" class="brand-logo-img">
+      <img src="byreal (2).png" alt="Byreal" class="brand-logo-img">
+      <img src="blockchain-valley.png" alt="Alliance" class="brand-logo-img">
+      <img src="elfa-brand (1).svg" alt="Elfa" class="brand-logo-img">
+      <img src="mantle brand (1).svg" alt="Mantle" class="brand-logo-img">
+      <img src="bybit (1).png" alt="Bybit" class="brand-logo-img">
+      <img src="byreal (2).png" alt="Byreal" class="brand-logo-img">
+      <img src="blockchain-valley.png" alt="Alliance" class="brand-logo-img">
+    </div>
+  </div>
+
+  <div class="brand-marquee-slow">
+    <div class="brand-track-slow">
+      <img src="surf (1).png" alt="Surf" class="brand-logo-img">
+      <img src="nansen (1).png" alt="Nansen" class="brand-logo-img">
+      <img src="mirana (1).svg" alt="Mirana" class="brand-logo-img">
+      <img src="opencheck (1).png" alt="OpenCheck" class="brand-logo-img">
+      <img src="tencent-cloud (1).svg" alt="Tencent" class="brand-logo-img">
+      <img src="animoca-minds (1).svg" alt="Animoca" class="brand-logo-img">
+      <img src="surf (1).png" alt="Surf" class="brand-logo-img">
+      <img src="nansen (1).png" alt="Nansen" class="brand-logo-img">
+      <img src="mirana (1).svg" alt="Mirana" class="brand-logo-img">
+    </div>
   </div>
 </section>
 
@@ -388,7 +313,7 @@
 
 <div class="section">
   <div class="section-label">// LIVE OUTPUT</div>
-  <h2>Bot in Action</h2>
+  <h2>Bot Executions Stream</h2>
   <div class="terminal">
     <div class="terminal-bar">
       <div class="dot dot-r"></div>
@@ -396,23 +321,8 @@
       <div class="dot dot-g"></div>
       <span class="terminal-title">mantle_trading_bot.py</span>
     </div>
-    <div class="terminal-body">
-      <div><span class="t-green">🤖 Mantle AI Trading Bot</span> <span class="t-dim">— Turing Test Hackathon 2026</span></div>
-      <div><span class="t-dim">═══════════════════════════════════════</span></div>
-      <div><span class="t-blue">✅ Connected to Mantle Network</span> <span class="t-dim">| Chain ID: 5000</span></div>
-      <div><span class="t-dim">🔄 Cycle #1 | 21:15:30</span></div>
-      <div><span class="t-dim">🔍 Scanning 5 tokens on Mantle...</span></div>
-      <div><span class="t-dim">═══════════════════════════════════════</span></div>
-      <div><span class="t-green">🟢 MNT</span>    <span class="t-dim">| $0.8234  | Liq: $245,000 | 5m:</span> <span class="t-green">+3.2%</span> <span class="t-dim">|</span> <span class="t-green">BUY → Volume spike</span></div>
-      <div><span class="t-white">⚪ WETH</span>   <span class="t-dim">| $2451.00 | Liq: $890,000 | 5m:</span> <span class="t-dim">+0.1%</span> <span class="t-dim">| HOLD</span></div>
-      <div><span class="t-yellow">🟡 USDT</span>   <span class="t-dim">| $1.0001  | Liq: $120,000 | 5m:</span> <span class="t-dim">+0.0%</span> <span class="t-dim">| WATCH</span></div>
-      <div><span class="t-white">⚪ USDC</span>   <span class="t-dim">| $0.9999  | Liq: $95,000  | 5m:</span> <span class="t-dim">-0.1%</span> <span class="t-dim">| HOLD</span></div>
-      <div><span class="t-red">🔴 mETH</span>   <span class="t-dim">| $2448.00 | Liq: $340,000 | 5m:</span> <span class="t-red">-6.2%</span> <span class="t-dim">|</span> <span class="t-red">SELL → Dump signal</span></div>
-      <div><span class="t-dim">═══════════════════════════════════════</span></div>
-      <div><span class="t-green">⚡ 2 signal(s) mila!</span></div>
-      <div><span class="t-green">🎯 BUY SIGNAL: MNT | Price: $0.8234</span></div>
-      <div><span class="t-dim">⏳ 30 seconds baad agla scan...</span> <span class="cursor"></span></div>
-    </div>
+    <div class="terminal-body" id="dynamic-terminal-stream">
+      </div>
   </div>
 </div>
 
@@ -434,21 +344,6 @@
       <div class="feature-icon">🛡️</div>
       <h3>Risk Management</h3>
       <p>Automatic Stop Loss at -8% and Take Profit at +15%. Protects capital automatically.</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">⚡</div>
-      <h3>24/7 Autonomous</h3>
-      <p>Runs continuously every 30 seconds. No human intervention needed once deployed.</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">🔗</div>
-      <h3>Mantle Native</h3>
-      <p>Built specifically for Mantle Network (Chain ID: 5000) with Merchant Moe DEX integration.</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">📊</div>
-      <h3>On-Chain Logs</h3>
-      <p>Every decision logged permanently. Full transparency for judges and the community.</p>
     </div>
   </div>
 </div>
@@ -494,7 +389,6 @@
   <div class="logo">Mantle<span>Whale</span></div>
   <p>AI Trading Bot — Turing Test Hackathon 2026 — Track: AI Trading & Strategy</p>
   <p>🇵🇰 Built by Muhammad Taha — Pakistan</p>
-  <p>📧 mt554433221111@gmail.com</p>
   <div class="footer-links">
     <a href="https://github.com/MuhammadTaha313/mantle-whale-trading-bot" id="footer-github-link" target="_blank">GitHub</a>
     <a href="https://youtu.be/Qr4Tn8bolig" id="footer-video-link" target="_blank">Demo Video</a>
@@ -504,41 +398,34 @@
 </footer>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    
-    const heroGitBtn = document.getElementById("hero-github-btn");
-    if (heroGitBtn) {
-      heroGitBtn.addEventListener("click", function() {
-        gtag('event', 'click_github_hero', {
-          'event_category': 'Engagement',
-          'event_label': 'Hero GitHub Repository Link'
-        });
-      });
-    }
+  const targetElement = document.getElementById('dynamic-terminal-stream');
+  const terminalLines = [
+    '<span class="t-green">🤖 Mantle AI Trading Bot Initiated...</span>',
+    '<span class="t-dim">═══════════════════════════════════════</span>',
+    '<span class="t-blue">✅ Connected to Mantle Network</span> <span class="t-dim">| Chain ID: 5000</span>',
+    '<span class="t-dim">🔄 Cycle #1 running dynamic analytics loop...</span>',
+    '<span class="t-dim">🔍 Scanning on-chain liquidity parameters...</span>',
+    '<span class="t-dim">═══════════════════════════════════════</span>',
+    '🟢 MNT    <span class="t-dim">| $0.8234  | Liq: $245,000 |</span> <span class="t-green">BUY → Spike Detected</span>',
+    '⚪ WETH   <span class="t-dim">| $2451.00 | Liq: $890,000 |</span> <span class="t-white">HOLD</span>',
+    '🔴 mETH   <span class="t-dim">| $2448.00 | Liq: $340,000 |</span> <span class="t-red">SELL → Dump Risk</span>',
+    '<span class="t-dim">═══════════════════════════════════════</span>',
+    '<span class="t-green">🎯 LIVE SIGNAL DISPATCHED: BUY MNT execution successful.</span>',
+    '<span class="t-dim">⏳ Standing by. Next engine block update in 30s...</span>'
+  ];
 
-    const heroDemoBtn = document.getElementById("hero-demo-btn");
-    if (heroDemoBtn) {
-      heroDemoBtn.addEventListener("click", function() {
-        gtag('event', 'click_demo_video_hero', {
-          'event_category': 'Engagement',
-          'event_label': 'Hero YouTube Demo Play'
-        });
-      });
+  let currentLineIndex = 0;
+  function printTerminalStream() {
+    if (currentLineIndex < terminalLines.length) {
+      const rowWrapper = document.createElement('div');
+      rowWrapper.innerHTML = terminalLines[currentLineIndex];
+      targetElement.appendChild(rowWrapper);
+      currentLineIndex++;
+      setTimeout(printTerminalStream, 800); // 0.8s typing speed
     }
-
-    const footerDora = document.getElementById("footer-dora-link");
-    if (footerDora) {
-      footerDora.addEventListener("click", function() {
-        gtag('event', 'click_dorahacks_footer', {
-          'event_category': 'Hackathon Submission',
-          'event_label': 'Footer DoraHacks Submission BUIDL Link'
-        });
-      });
-    }
-    
-  });
+  }
+  window.onload = printTerminalStream;
 </script>
 
 </body>
-                                                                                                                                                                           </html>
-      
+</html>
