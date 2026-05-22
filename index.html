@@ -155,7 +155,7 @@
     border-color: var(--dark);
   }
 
-  /* 2-PATTI MARQUEE SYSTEM (FIXED AND INDEPENDENT) */
+  /* 2-PATTI MARQUEE SYSTEM */
   .marquee-section-wrapper {
     width: 100vw;
     position: relative;
@@ -188,13 +188,8 @@
     width: max-content;
   }
   
-  .track-left {
-    animation: scrollLeft 35s linear infinite;
-  }
-  
-  .track-right {
-    animation: scrollRight 35s linear infinite;
-  }
+  .track-left { animation: scrollLeft 35s linear infinite; }
+  .track-right { animation: scrollRight 35s linear infinite; }
   
   .brand-logo-img {
     height: 30px;
@@ -243,7 +238,7 @@
     font-weight: 700;
   }
 
-  /* SYSTEM TERMINAL CONSOLE & RESPONSIVE CONTAINERS */
+  /* SYSTEM TERMINAL CONSOLE - STABILIZED VISIBILITY */
   .section {
     padding: 2rem 0;
     margin-bottom: 3.5rem;
@@ -296,20 +291,22 @@
     font-size: 0.85rem;
     line-height: 1.9;
     min-height: 280px;
-    color: #e5e7eb;
+    background: #090d16 !important;
+    color: #e5e7eb !important; /* Strict default visual fallback */
     text-align: left !important;
     font-family: 'Space Mono', monospace;
     overflow-y: auto;
   }
   .terminal-body div {
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.4rem;
+    color: #e5e7eb; /* Ensured text remains visible inside dynamic wrappers */
   }
-  .t-dim { color: #4b5563; }
-  .t-green { color: var(--green); }
-  .t-yellow { color: #f59e0b; }
-  .t-red { color: #ef4444; }
-  .t-white { color: #fff; }
-  .t-blue { color: #3b82f6; }
+  .t-dim { color: #4b5563 !important; }
+  .t-green { color: #0fcb81 !important; }
+  .t-yellow { color: #f59e0b !important; }
+  .t-red { color: #ef4444 !important; }
+  .t-white { color: #ffffff !important; }
+  .t-blue { color: #3b82f6 !important; }
 
   /* PLATFORM ADVANCED FEATURES */
   .features {
@@ -475,25 +472,11 @@
         <img src="elfa-brand (1).svg" class="brand-logo-img">
         <img src="techflow.svg" class="brand-logo-img">
         <img src="odaily.svg" class="brand-logo-img">
-        <img src="mantle brand (1).svg" class="brand-logo-img">
-        <img src="bybit (1).png" class="brand-logo-img">
-        <img src="byreal (2).png" class="brand-logo-img">
-        <img src="blockchain-valley.png" class="brand-logo-img">
-        <img src="elfa-brand (1).svg" class="brand-logo-img">
-        <img src="techflow.svg" class="brand-logo-img">
-        <img src="odaily.svg" class="brand-logo-img">
       </div>
     </div>
 
     <div class="brand-marquee">
       <div class="brand-track track-right">
-        <img src="surf (1).png" class="brand-logo-img">
-        <img src="nansen (1).png" class="brand-logo-img">
-        <img src="mirana (1).svg" class="brand-logo-img">
-        <img src="opencheck (1).png" class="brand-logo-img">
-        <img src="tencent-cloud (1).svg" class="brand-logo-img">
-        <img src="animoca-minds (1).svg" class="brand-logo-img">
-        <img src="AltLLM_logo (1).svg" class="brand-logo-img">
         <img src="surf (1).png" class="brand-logo-img">
         <img src="nansen (1).png" class="brand-logo-img">
         <img src="mirana (1).svg" class="brand-logo-img">
@@ -606,17 +589,40 @@
 </footer>
 
 <script>
-  const targetElement = document.getElementById('dynamic-terminal-stream');
-  const terminalLines = [
-    '<span class="t-green">🤖 Mantle AI Trading Bot Initiated...</span>',
-    '<span class="t-dim">═══════════════════════════════════════</span>',
-    '<span class="t-blue">✅ Connected to Mantle Network</span> <span class="t-dim">| Chain ID: 5000</span>',
-    '<span class="t-dim">🔄 Cycle #1 running dynamic analytics loop...</span>',
-    '<span class="t-dim">🔍 Scanning on-chain liquidity parameters...</span>',
-    '<span class="t-dim">═══════════════════════════════════════</span>',
-    '<div>🟢 MNT    <span class="t-dim">| $0.8234  | Liq: $245,000 |</span> <span class="t-green">BUY → Spike Detected</span></div>',
-    '<div>⚪ WETH   <span class="t-dim">| $2451.00 | Liq: $890,000 |</span> <span class="t-white">HOLD</span></div>',
-    '<div>🔴 mETH   <span class="t-dim">| $2448.00 | Liq: $340,000 |</span> <span class="t-red">SELL → Dump Risk</span></div>',
-    '<span class="t-dim">═══════════════════════════════════════</span>',
-    '<span class="t-green">🎯 LIVE SIGNAL DISPATCHED: BUY MNT execution successful.</span>',
-    '<span class="t-dim">⏳ Standing by. Next engine block update 
+  document.addEventListener("DOMContentLoaded", function() {
+    const targetElement = document.getElementById('dynamic-terminal-stream');
+    if(!targetElement) return;
+
+    const terminalLines = [
+      '<div class="t-green">🤖 Mantle AI Trading Bot Initiated...</div>',
+      '<div class="t-dim">═══════════════════════════════════════</div>',
+      '<div class="t-blue">✅ Connected to Mantle Network | Chain ID: 5000</div>',
+      '<div class="t-dim">🔄 Cycle #1 running dynamic analytics loop...</div>',
+      '<div class="t-dim">🔍 Scanning on-chain liquidity parameters...</div>',
+      '<div class="t-dim">═══════════════════════════════════════</div>',
+      '<div>🟢 MNT    <span class="t-dim">| $0.8234  | Liq: $245,000 |</span> <span class="t-green">BUY → Spike Detected</span></div>',
+      '<div>⚪ WETH   <span class="t-dim">| $2451.00 | Liq: $890,000 |</span> <span class="t-white">HOLD</span></div>',
+      '<div>🔴 mETH   <span class="t-dim">| $2448.00 | Liq: $340,000 |</span> <span class="t-red">SELL → Dump Risk</span></div>',
+      '<div class="t-dim">═══════════════════════════════════════</div>',
+      '<div class="t-green">🎯 LIVE SIGNAL DISPATCHED: BUY MNT execution successful.</div>',
+      '<div class="t-dim">⏳ Standing by. Next engine block update in 30s...</div>'
+    ];
+
+    let currentLineIndex = 0;
+    function printTerminalStream() {
+      if (currentLineIndex < terminalLines.length) {
+        const rowWrapper = document.createElement('div');
+        rowWrapper.innerHTML = terminalLines[currentLineIndex];
+        targetElement.appendChild(rowWrapper);
+        currentLineIndex++;
+        setTimeout(printTerminalStream, 350); // Fluid stream generation latency speed up
+      }
+    }
+    
+    // Immediate execution trigger setup
+    printTerminalStream();
+  });
+</script>
+
+</body>
+</html>
