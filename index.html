@@ -86,6 +86,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    width: 100%;
   }
   .badge {
     display: inline-block;
@@ -122,6 +123,7 @@
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 4rem;
+    width: 100%;
   }
   .btn {
     padding: 1rem 2.5rem;
@@ -215,7 +217,7 @@
     gap: 1px;
     border: 1px solid var(--border);
     width: 100%;
-    margin: 0 auto 5rem auto;
+    margin: 0 auto 4rem auto;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0,0,0,0.01);
@@ -241,10 +243,12 @@
     font-weight: 700;
   }
 
-  /* SYSTEM TERMINAL CONSOLE */
+  /* SYSTEM TERMINAL CONSOLE & RESPONSIVE CONTAINERS */
   .section {
-    padding: 2rem 0 5rem 0;
+    padding: 2rem 0;
+    margin-bottom: 3.5rem;
     width: 100%;
+    display: block;
   }
   .section-label {
     font-size: 0.75rem;
@@ -261,12 +265,14 @@
     margin-bottom: 2.5rem;
   }
   .terminal {
-    background: #090d16;
+    background: #090d16 !important;
     border: 1px solid #1e293b;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(15,23,42,0.06);
     width: 100%;
+    display: block;
+    position: relative;
   }
   .terminal-bar {
     background: #111827;
@@ -291,6 +297,12 @@
     line-height: 1.9;
     min-height: 280px;
     color: #e5e7eb;
+    text-align: left !important;
+    font-family: 'Space Mono', monospace;
+    overflow-y: auto;
+  }
+  .terminal-body div {
+    margin-bottom: 0.3rem;
   }
   .t-dim { color: #4b5563; }
   .t-green { color: var(--green); }
@@ -331,6 +343,7 @@
     gap: 0.6rem;
     flex-wrap: wrap;
     margin-bottom: 4rem;
+    width: 100%;
   }
   .token {
     border: 1px solid var(--border);
@@ -601,19 +614,9 @@
     '<span class="t-dim">🔄 Cycle #1 running dynamic analytics loop...</span>',
     '<span class="t-dim">🔍 Scanning on-chain liquidity parameters...</span>',
     '<span class="t-dim">═══════════════════════════════════════</span>',
-    '🟢 MNT    <span class="t-dim">| $0.8234  | Liq: $245,000 |</span> <span class="t-green">BUY → Spike Detected</span>',
-    '⚪ WETH   <span class="t-dim">| $2451.00 | Liq: $890,000 |</span> <span class="t-white">HOLD</span>',
-    '🔴 mETH   <span class="t-dim">| $2448.00 | Liq: $340,000 |</span> <span class="t-red">SELL → Dump Risk</span>',
+    '<div>🟢 MNT    <span class="t-dim">| $0.8234  | Liq: $245,000 |</span> <span class="t-green">BUY → Spike Detected</span></div>',
+    '<div>⚪ WETH   <span class="t-dim">| $2451.00 | Liq: $890,000 |</span> <span class="t-white">HOLD</span></div>',
+    '<div>🔴 mETH   <span class="t-dim">| $2448.00 | Liq: $340,000 |</span> <span class="t-red">SELL → Dump Risk</span></div>',
     '<span class="t-dim">═══════════════════════════════════════</span>',
     '<span class="t-green">🎯 LIVE SIGNAL DISPATCHED: BUY MNT execution successful.</span>',
-    '<span class="t-dim">⏳ Standing by. Next engine block update in 30s...</span>'
-  ];
-
-  let currentLineIndex = 0;
-  function printTerminalStream() {
-    if (currentLineIndex < terminalLines.length) {
-      const rowWrapper = document.createElement('div');
-      rowWrapper.innerHTML = terminalLines[currentLineIndex];
-      targetElement.appendChild(rowWrapper);
-      currentLineIndex++;
-      setTimeout(printTermi
+    '<span class="t-dim">⏳ Standing by. Next engine block update 
